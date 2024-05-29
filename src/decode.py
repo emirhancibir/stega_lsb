@@ -136,7 +136,7 @@ def decode(img_path, debug=False):
     return msg
 
 if __name__ == "__main__":
-    debug = True  # Set to True to enable debug prints
-    secret_message = decode("imgs/encoded.png", debug)
+    debug = False  # Set to True to enable debug prints
+    secret_message = decode("../imgs/encoded.png", debug)
     print("-" * 30)
     print("SECRET MESSAGE IS : {}".format(secret_message))

@@ -110,7 +110,7 @@ def encode_message(img, msg_splitted_bits, debug=False):
         print(data)
     
     data = np.reshape(data, (img.shape[0], img.shape[1], 3))
-    cv2.imwrite("imgs/encoded.png", data)
+    cv2.imwrite("../imgs/encoded.png", data)
 
 def insert_msg(img_path, msg, debug=False):
     """
@@ -138,7 +138,7 @@ def insert_msg(img_path, msg, debug=False):
 
 
 if __name__ == '__main__':
-    img_path = "imgs/panda.png"
-    msg = "313131 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    img_path = "../imgs/panda.png"
+    msg = "otuzbir lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     debug = False  # Set to True to enable debug prints
     insert_msg(img_path, msg, debug)
