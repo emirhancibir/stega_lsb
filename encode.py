@@ -16,6 +16,12 @@ def insert_msg(img_path, msg):
 
     # GETTING SHAPE AND CALCULATE MAX BYTES
     shape = np.shape(img)
+
+    # PRINTING ORIGINAL IMAGE SHAPE
+    print("shape[0] : {} shape[1] : {}".format(shape[0], shape[1]))
+    print("-"*30)
+
+    # PRINTING MAX BYTES FOR ENCODING
     max_bytes = shape[0]*shape[1]
 
     # THROW EXCEPT FOR CAPACITY
@@ -36,25 +42,32 @@ def insert_msg(img_path, msg):
         bin_msg = format(ord(i),'08b')
         bin_msgs.append(bin_msg)
 
+    # PRINTING BIN MESSAGES
+    print("BIN MSG")
+    print(bin_msgs)
+    print("-"*30)
+    
     # SPLIT MSG
     for i in bin_msgs:
         
         for j in range(0, len(i), 2):
             msg_splitted_bits.append(i[j:j+2])
         
-    
-    print("MESSAGE")
-    print((msg_splitted_bits))
+    # PRINTING SPLITTED BIN MESSAGE
+    print("BIN MESSAGE SPLITTED")
+    print(msg_splitted_bits)
     print("-"*30)
     
     
     # CONVERT AGAIN DECIMAL 2 BIT SPLITTED MSG 
     msg_splitted_bits = [int(bit, 2) for bit in msg_splitted_bits]
+    print("SPLITTED MSG DEC")
     print(msg_splitted_bits)
     print("-"*30)
-    for i, bit in enumerate(msg_splitted_bits):
-        # CLEAN LAST TWO BITS
+    for i in range(len(data)):
+        # CLEAN LAST TWO BITS  
         data[i] &= 0b11111100
+    print(np.array(data))
 
     for i, bit in enumerate(msg_splitted_bits):
         
@@ -63,14 +76,16 @@ def insert_msg(img_path, msg):
         print("changed : ",data[i])        
 
     data = np.array(data)
+    print(data)
     data = np.reshape(data, (shape[0], shape[1], 3))
-    cv2.imwrite("imgs/encoded_img.png", data)
+    cv2.imwrite("imgs/encoded.png", data)
     
         
 if __name__ == '__main__':
 
-    img_path = "imgs/man.jpeg"
-    insert_msg(img_path, "zart")
+    img_path = "imgs/panda.png"
+    # NOT SUPPORT TURKISH CHARACTERS BECAUSE USING ASCII VALUES
+    insert_msg(img_path, "saaa lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
 
 # TODO: MUST BE ADD MESSAGE FINISH FLAG BECAUSE ITS NOT RECEIVING MESSAGE LENGTH
 # TODO: SAVED FILE NAMES WILL BE DYNAMIC E.G. IMWRITE ....
