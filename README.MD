@@ -8,76 +8,70 @@ Bu proje, görüntü dosyalarının içine gizli mesajlar gizleme uygulaması ol
 ![LSB](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfSk6jWFUDw31Mreg87dmYghgWOytYmrq00kP_j58w0hdUz71hcczpoJeP6Uuw9Rzbpxy1c-jzb7xkRhTOjoMiB5dgrnAi407AhLPxXx7hYR6o3UzkZi-zMk2cWFN7h4jvuY8Z6M92jWs/s1600/encode.png)
 LSB algoritması, bir görüntünün her pikselinin en önemsiz bitlerini değiştirerek gizli bir mesajı kodlamak için kullanılır. Bu algoritma, insan gözünün bu küçük değişiklikleri fark edemeyeceği varsayımına dayanır. Mesaj, her pikselin en önemsiz bitlerini değiştirerek kodlanır ve bu sayede görüntü neredeyse değişmeden kalır.
 
-### Kurulum
+## Kurulum
 Bu proje Python 3 ile geliştirilmiş ve test edilmiştir. Projeyi çalıştırmak için Python 3 ve aşağıdaki kütüphanelerin yüklü olması gerekir:
 
 - OpenCV (cv2)
 - NumPy (numpy)
+- PyQt5 (GUI için)
 Bu kütüphaneleri pip3 ile yükleyebilirsiniz:
 
 ```
-pip3 install opencv-python numpy
+pip3 install opencv-python numpy pyqt5
 ```
 
 
-### Kullanım
-Repoyu Klonlama
+## Kullanım
 Bu projeyi kullanmak için öncelikle GitHub'dan repoyu klonlamanız gerekir. Bunu yapmak için aşağıdaki komutu kullanabilirsiniz:
 
 ```
 git clone https://github.com/emirhancibir/stega_lsb.git
 ```
 
+### Komut Satırı Arayüzü (CLI)
+Proje, bir komut satırı arayüzü (CLI) sunar. CLI'yı kullanmak için `cli/stega_cli.py` dosyasını çalıştırın:
 
-### Kodlama (Encoding)
-Bir mesajı bir görüntüye kodlamak için encode.py betiğini çalıştırın:
 ```
-python3 encode.py
+python3 cli/stega_cli.py --help
 ```
+Bu, kullanılabilir komutları ve seçenekleri gösterecektir.
 
-
-Bu betik, varsayılan olarak imgs/panda.png görüntüsüne "313131 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." mesajını kodlar. Kodlanmış görüntü imgs/encoded.png olarak kaydedilir.
-
-#### Örnek çalıştırma:
+#### Kodlama (Encoding)
+Bir mesajı bir görüntüye kodlamak için :
 ```
-$ python3 encode.py
-INSERTION COMPLETED
+python3 cli/stega_cli.py encode /path/to/image.jpg "Gizli mesaj"
 ```
 
+### Örnek çalıştırma:
 
-### Orjinal Görüntü
+#### Orjinal Görüntü
 ![Orjinal Görüntü](docs/imgs/panda.png)
 
-### Kodlanmış Görüntü
+#### Kodlanmış Görüntü
 ![Kodlanmıs Görüntü](docs/imgs/encoded.png)
 
 
 ### Çözme (Decoding)
-Kodlanmış bir görüntüden mesajı çözmek için decode.py betiğini çalıştırın:
+Kodlanmış bir görüntüden mesajı çözmek için:
 ```
-python3 decode.py
+python3 cli/stega_cli.py decode /path/to/encoded_image.png
 ```
 
 
 Bu betik, varsayılan olarak imgs/encoded.png dosyasından gizli mesajı çözer ve konsola yazdırır.
 
-#### Örnek çalıştırma:
-```
-$ python3 decode.py
-------------------------------
-SECRET MESSAGE IS : 313131 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-```
 
+#### Grafik Kullanıcı Arayüzü (GUI)
+Proje ayrıca bir grafik kullanıcı arayüzü (GUI) sunar. GUI'yi başlatmak için `gui/qt_gui.py` dosyasını çalıştırın:
+```
+python3 gui/qt_gui.py
+```
+![GUI](docs/imgs/gui.png)
+
+GUI, görüntü seçme, kodlama ve çözme işlemlerini kolayca gerçekleştirmenizi sağlar.
 
 ### Hata Ayıklama
-Her iki betik de debug parametresini True olarak ayarlayarak ara adımları yazdırabilirsiniz. Bu, kodun nasıl çalıştığını anlamanıza yardımcı olabilir.
-```
-debug = True
-insert_msg(img_path, msg, debug)
-
-debug = True
-secret_message = decode("imgs/encoded.png", debug)
-```
+CLI ve GUI uygulamalarında, `--debug` veya `debug=True` seçeneğini kullanarak ara adımları yazdırabilirsiniz. Bu, kodun nasıl çalıştığını anlamanıza yardımcı olabilir.
 
 ### Pseudo Kod
 #### Kodlama (Encoding)
@@ -101,8 +95,6 @@ secret_message = decode("imgs/encoded.png", debug)
 - "INSERTION COMPLETED" mesajını yazdır
 
 - Bitir
-
-
 
 #### Çözme (Decoding)
 - Başlat

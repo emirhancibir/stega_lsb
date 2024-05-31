@@ -135,8 +135,9 @@ def decode(img_path, debug=False):
     msg = decode_message(merged_data, debug)
     return msg
 
-if __name__ == "__main__":
-    debug = False  # Set to True to enable debug prints
-    secret_message = decode("../imgs/encoded.png", debug)
-    print("-" * 30)
-    print("SECRET MESSAGE IS : {}".format(secret_message))
+# if __name__ == "__main__":
+#     debug = True  # Set to True to enable debug prints
+#     img_path = "/home/emir/stega_lsb/imgs/cat_embed.jpeg.png"
+#     secret_message = decode(img_path, debug)
+#     print("-" * 30)
+#     print("SECRET MESSAGE IS : {}".format(secret_message))

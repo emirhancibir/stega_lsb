@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import os
 
 def read_image(img_path, debug=False):
     """
@@ -99,6 +100,7 @@ def encode_message(img, msg_splitted_bits, debug=False):
         data[i] &= 0b11111100
 
     if debug:
+        print("DATA AFTER MULTIPLY ZERO LAST TWO BITS")
         print(np.array(data))
     
     for i, bit in enumerate(msg_splitted_bits):
@@ -107,10 +109,12 @@ def encode_message(img, msg_splitted_bits, debug=False):
     data = np.array(data)
     
     if debug:
+        print("DATA AFTER INSERTION")
         print(data)
     
     data = np.reshape(data, (img.shape[0], img.shape[1], 3))
-    cv2.imwrite("../imgs/encoded.png", data)
+    return data
+
 
 def insert_msg(img_path, msg, debug=False):
     """
@@ -133,12 +137,17 @@ def insert_msg(img_path, msg, debug=False):
         return
     bin_msgs = convert_msg_to_binary(msg, debug)
     msg_splitted_bits = split_binary_msg(bin_msgs, debug)
-    encode_message(img, msg_splitted_bits, debug)
-    print("INSERTION COMPLETED")
+    data = encode_message(img, msg_splitted_bits, debug)
+
+    base_name, ext = os.path.splitext(img_path)
+    output_path = f"{base_name}_embed{ext}.png"
+
+    cv2.imwrite(output_path, data)
+    print(f"INSERTION COMPLETED. Encoded image saved as: {output_path}")
 
 
-if __name__ == '__main__':
-    img_path = "../imgs/panda.png"
-    msg = "otuzbir lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    debug = False  # Set to True to enable debug prints
-    insert_msg(img_path, msg, debug)
+# if __name__ == '__main__':
+#     img_path = "/home/emir/stega_lsb/imgs/cat.jpeg"
+#     msg = "otuzbir 31."
+#     debug = True  # Set to True to enable debug prints
+#     insert_msg(img_path, msg, debug)
