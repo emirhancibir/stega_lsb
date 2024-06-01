@@ -61,7 +61,7 @@ python3 cli/stega_cli.py decode /path/to/encoded_image.png
 Bu betik, varsayılan olarak imgs/encoded.png dosyasından gizli mesajı çözer ve konsola yazdırır.
 
 
-#### Grafik Kullanıcı Arayüzü (GUI)
+### Grafik Kullanıcı Arayüzü (GUI)
 Proje ayrıca bir grafik kullanıcı arayüzü (GUI) sunar. GUI'yi başlatmak için `gui/qt_gui.py` dosyasını çalıştırın:
 ```
 python3 gui/qt_gui.py
