@@ -1,19 +1,27 @@
-from firebase import firebase
-import base64
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
-firebase = firebase.FirebaseApplication('https://edocsverified-default-rtdb.firebaseio.com/', None)
+cred = credentials.Certificate('/home/emir/edocsverified-firebase-adminsdk-julmv-3b8553156e.json')
 
+# Initialize the app with a service account, granting admin privileges
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://edocsverified-default-rtdb.firebaseio.com/'
+})
 
+ref = db.reference('server/documents')
 
-def send_data_to_firebase(data, original_image_path, encoded_image_path):
-    with open(original_image_path, "rb") as image_file:
-        original_image_data = base64.b64encode(image_file.read()).decode('utf-8')
+print(ref.get())
 
-    with open(encoded_image_path, "rb") as image_file:
-        encoded_image_data = base64.b64encode(image_file.read()).decode('utf-8')
+def send_data_to_firebase(data):
+    ref = db.reference('documents')
+    ref.push().set(data)
 
-    data['original_image'] = original_image_data
-    data['encoded_image'] = encoded_image_data
+def get_data_from_firebase(verification_code):
+    ref = db.reference('documents')
+    snapshot = ref.order_by_child('verification_code').equal_to(verification_code).get()
+    if snapshot:
+        for key, val in snapshot.items():
+            return val
+    return None
 
-    result = firebase.post('/documents', data)
-    print(f"Data sent to Firebase: {result}")

@@ -142,11 +142,12 @@ def insert_msg(img_path, msg, debug=False):
     data = encode_message(img, msg_splitted_bits, debug)
 
     base_name, ext = os.path.splitext(img_path)
-    output_path = f"{base_name}_verified{ext}.png"
+    output_dir = os.path.join(os.path.dirname(img_path), "embedded")
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, f"{os.path.basename(base_name)}_verify_code{ext}.png")
 
     cv2.imwrite(output_path, data)
     print(f"INSERTION COMPLETED. Encoded image saved as: {output_path}")
-    return output_path
 
 def create_verify_code(length=8):
 
