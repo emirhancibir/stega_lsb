@@ -103,19 +103,28 @@ def decode_message(merged_data, debug=False):
         str: The secret message decoded from the merged data.
     """
     ascii_chars = []
+    verification_code_length = int(merged_data[0], 2)
+    message_length = 0
 
-    for i in merged_data:
+    for i in merged_data[1:]:
         dec_char = int(i, 2)
-        ascii_chars.append(chr(dec_char))
+        if dec_char != 0:
+            ascii_chars.append(chr(dec_char))
+            message_length += 1
 
-    msg = ''.join(ascii_chars)
+    message = ''.join(ascii_chars)
 
-    if debug:
-        print("Secret message:")
-        print(msg)
-        print("-" * 30)
-
-    return msg
+    if message_length == verification_code_length:
+        if debug:
+            print("Secret message:")
+            print(message)
+            print("-" * 30)
+        return message
+    else:
+        if debug:
+            print("Invalid message length.")
+            print("-" * 30)
+        return ""
 
 def decode(img_path, debug=False):
     """
