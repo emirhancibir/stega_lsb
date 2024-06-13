@@ -122,6 +122,7 @@ def decode_message(merged_data, debug=False):
         return message
     else:
         if debug:
+            print("message length : {} verification code length : {}".format(message_length, verification_code_length))
             print("Invalid message length.")
             print("-" * 30)
         return ""
